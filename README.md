@@ -1,10 +1,17 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
 
-First, run the development server:
+## Welcome to Museumapp
+
+Hi I'm Jesus :nerd_face: and this is my repo for the code challenge offered by PrevalentWare.
+
+The following project is developed in React with the NextJS framework.
+So when you download it you will need the typical commands to start it
 
 ```bash
+npm i
+# to install dependencies or 
+npm install
+# then you can run it using:
 npm run dev
 # or
 yarn dev
@@ -12,23 +19,34 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+### Features
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+The tools used in the project will be listed below:
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+- Axios for HTTP requests.
+- TailwindCSS for styles.
+- Custom Scrolltop component.
+- Mysql Database for storage data
 
-## Learn More
+You can check out the [Live Demo](https://museum-app-gamma.vercel.app/) - your feedback and contributions are welcome!
 
-To learn more about Next.js, take a look at the following resources:
+```
+ username or email: admin
+ password: root
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Local recommendations
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Make sure you have a database manager like mysql installed.
+In the directory ``` ./config/db.js ``` you will find the next structure:
+```
+host: process.env.NEXT_PUBLIC_DB_HOST,
+user: process.env.NEXT_PUBLIC_DB_USER,
+password: process.env.NEXT_PUBLIC_DB_PASSWORD,
+port: process.env.NEXT_PUBLIC_DB_PORT,
+database: process.env.NEXT_PUBLIC_DB_NAME
+    
+```
+Where you need to config and set the .env variables to load the specific parameters from you SQL connection.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+I Hope this works fine for you :robot:
