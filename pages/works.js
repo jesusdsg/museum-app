@@ -60,7 +60,7 @@ export default function Works() {
   };
 
   /*Input handlers*/
-  const queryHandler = async () => {
+  const queryHandler = () => {
     if (query == "" && works.length == 0) {
       setWorks(...[initData]);
     } else if (query != "" && maker.value != "") {
