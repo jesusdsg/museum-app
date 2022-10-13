@@ -14,7 +14,7 @@ const deleteBookmark = async (req, res) => {
     }
     try {
       await pool.query("DELETE FROM bookmarks WHERE id=?", [req.query.id])
-      return res.status(200).json({ message: "Bookmark removed suscessfully" });
+      return res.status(200).json({ message: "Favorite removed suscessfully" });
     } catch (error) {
       return res.status(401).json({ error: error });
     }

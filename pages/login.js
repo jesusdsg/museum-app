@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 
 function Login() {
   const router = useRouter();
@@ -27,7 +28,7 @@ function Login() {
      })
       .catch((error) => {
         console.log('Error', error)
-        alert(error.response.data.error)
+        toast(error.response.data.error, { hideProgressBar: true, autoClose: 2000, type: 'error', position: 'bottom-right'})
       });
   };
 

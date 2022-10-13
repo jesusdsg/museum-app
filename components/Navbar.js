@@ -2,6 +2,7 @@ import Link from "next/link";
 import React from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export default function Navbar() {
   const router = useRouter();
@@ -15,7 +16,7 @@ export default function Navbar() {
       })
       .catch((error) => {
         console.log("Error", error);
-        alert(error.response.data.error)
+        toast(error.response.data.error, { hideProgressBar: true, autoClose: 2000, type: 'error', position: 'bottom-right'})        
       });
   };
   return (

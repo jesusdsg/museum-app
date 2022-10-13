@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Layout } from "../components/Layout";
 import Card from "../components/Card";
+import { toast } from "react-toastify";
 
 function Profile() {
   const [user, setUser] = useState({
@@ -18,7 +19,7 @@ function Profile() {
    })
     .catch((error) => {
       console.log('Error', error)
-      alert(error.response.data.error)
+      toast(error.response.data.error, { hideProgressBar: true, autoClose: 2000, type: 'error', position: 'bottom-right'})
     });
   };
   /* Loading the User profile based in cookies */
@@ -28,7 +29,7 @@ function Profile() {
 
   return (
     <Layout>
-      <div className="bg-white px-8 py-8 mt-8 rounded-lg shadow-lg">
+      <div className="bg-white px-8 py-8 mt-8 mb-8 rounded-lg shadow-lg">
         <h1 className="text-3xl font-bold">Welcome {user.name}</h1>
         <p className="text-2xl text-slate-400">
           {user.bookmarks == undefined || user.bookmarks.length == 0
@@ -36,7 +37,7 @@ function Profile() {
             : "This is your bookmarks list"}
         </p>
       </div>
-      <div className="grid grid-cols-3 gap-10 mt-8"> {user.bookmarks.map((bookmark) => {
+      <div className="grid grid-cols-3 gap-10 mt-8 mb-8"> {user.bookmarks.map((bookmark) => {
         const { id, title, image, createAt, website } = bookmark;
         let work = {
           id: id,

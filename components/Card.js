@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 function Card({ work, mode }) {
   const saveFavorite = async (work) => {
@@ -8,12 +9,12 @@ function Card({ work, mode }) {
       .post("/api/profile", work)
       .then((response) => {
         if (response.status == 200) {
-          alert(response.data.message);
+          toast(response.data.message, { hideProgressBar: true, autoClose: 2000, type: 'success', position: 'bottom-right'})
         }
       })
       .catch((error) => {
         console.log("Error", error);
-        alert(error.response.data.error);
+        toast(error.response.data.error, { hideProgressBar: true, autoClose: 2000, type: 'error', position: 'bottom-right'})
       });
   };
   const removeFavorite = async (id) => {
@@ -21,12 +22,13 @@ function Card({ work, mode }) {
       .delete("/api/" + id)
       .then((response) => {
         if (response.status == 200) {
-          alert(response.data.message);
+          toast(response.data.message, { hideProgressBar: true, autoClose: 2000, type: 'success', position: 'bottom-right'})
         }
       })
       .catch((error) => {
         console.log("Error", error);
-        alert(error.response.data.error);
+        toast(eror.response.data.error, { hideProgressBar: true, autoClose: 2000, type: 'error', position: 'bottom-right'})
+        
       });
   };
   return (

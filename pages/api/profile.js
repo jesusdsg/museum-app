@@ -6,9 +6,6 @@ export default async function profileHandler(req, res) {
   } else if (req.method === "POST") {
     return await saveBookmark(req, res);
   }
-  else if (req.method == "DELETE"){
-    return await deleteBookmark(req, res);
-  }
 }
 
 const getProfileData = async (req,res) => {
@@ -55,32 +52,14 @@ const saveBookmark = async (req, res) => {
       website,
       userId: user.id,
     });
-    return res.status(200).json({ message: "Bookmark added suscessfully" });
+    return res.status(200).json({ message: "Favorite added suscessfully" });
     
   } catch (error) {
     return res.status(401).json({ error: error });
   }
   }
   else {
-    return res.status(200).json({ message: 'This Bookmark already exists' });
+    return res.status(200).json({ message: 'This favorite is already added' });
   }
   
 };
-
-
-const deleteBookmark = async (req, res) => {
-  const { token } = req.cookies;
-  const { id } = req.body;
-  console.log('Body', req.body)
-  console.log('Id para eliminar', id)
-  if (!token) {
-    return res.status(401).json({ error: "Not Token" });
-  }
-
-  try {
-    await pool.query("DELETE FROM bookmarks WHERE id=?", [id])
-    return res.status(200).json({ message: "Bookmark removed suscessfully" });
-  } catch (error) {
-    return res.status(401).json({ error: error });
-  }
-}
