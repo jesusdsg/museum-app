@@ -13,7 +13,7 @@ export default function Works() {
   const loadData = async () => {
     if (!loaded) {
       await axios
-        .get(API + process.env.NEXT_PUBLIC_APIKEY + "&ps=10")
+        .get(API + process.env.NEXT_PUBLIC_APIKEY + "&ps=20")
         .then(async (response) => {
           data = await response.data;
           setWorks(...[data.artObjects]);
@@ -41,7 +41,8 @@ export default function Works() {
 
   /*Filtering data by Artist and keyword*/
   const getWorkByArtist = async (artist) => {
-    await axios
+    if (query != ''){
+      await axios
       .get(
         API +
           process.env.NEXT_PUBLIC_APIKEY +
@@ -57,6 +58,24 @@ export default function Works() {
         console.log("Error", error);
         alert(error.response.data.error);
       });
+    }
+    else {
+      await axios
+      .get(
+        API +
+          process.env.NEXT_PUBLIC_APIKEY +
+          "&involvedMaker=" +
+          artist.value
+      )
+      .then((response) => {
+        setWorks(response.data.artObjects);
+      })
+      .catch((error) => {
+        console.log("Error", error);
+        alert(error.response.data.error);
+      });
+    }
+    
   };
 
   /*Input handlers*/
@@ -69,10 +88,8 @@ export default function Works() {
   };
 
   const selectHandler = (event) => {
-    if (query != '') {
       setMaker(event);
       getWorkByArtist(event);
-    }
   };
 
   useEffect(() => {
