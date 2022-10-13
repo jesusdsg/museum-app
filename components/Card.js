@@ -3,6 +3,7 @@ import Image from "next/image";
 import axios from "axios";
 import { toast } from "react-toastify";
 
+//Favorite or bookmark component
 function Card({ work, mode }) {
   const saveFavorite = async (work) => {
     await axios
@@ -27,7 +28,7 @@ function Card({ work, mode }) {
       })
       .catch((error) => {
         console.log("Error", error);
-        toast(eror.response.data.error, { hideProgressBar: true, autoClose: 2000, type: 'error', position: 'bottom-right'})
+        toast(error.response.data.error, { hideProgressBar: true, autoClose: 2000, type: 'error', position: 'bottom-right'})
         
       });
   };

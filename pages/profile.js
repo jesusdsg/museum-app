@@ -37,7 +37,7 @@ function Profile() {
             : "This is your bookmarks list"}
         </p>
       </div>
-      <div className="grid lg:grid-cols-3 gap-10 md:grid-cols-2 sm:grid-cols-1"> 
+      <div className="grid lg:grid-cols-3 mb-20 gap-10 md:grid-cols-2 sm:grid-cols-1"> 
       {user.bookmarks.map((bookmark) => {
         const { id, title, image, createAt, website } = bookmark;
         let work = {
