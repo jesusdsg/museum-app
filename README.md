@@ -26,7 +26,8 @@ The tools used in the project will be listed below:
 - Axios for HTTP requests.
 - TailwindCSS for styles.
 - Custom Scrolltop component.
-- Mysql Database for storage data
+- Mysql Database for storage data.
+- Vercel for deployment.
 
 You can check out the [Live Demo](https://museum-app-gamma.vercel.app/) - your feedback and contributions are welcome!
 
