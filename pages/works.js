@@ -91,12 +91,18 @@ export default function Works() {
       <div className="px-8">
         <div className="bg-white px-8 py-8 mt-8 rounded-lg shadow-lg">
           <h1 className="text-3xl font-bold m-auto">Works of art</h1>
-          <div className="lg:flex sm:inline-block">
+          <div className="lg:flex grid gap-4">
             <p className="text-xl mt-2 mr-5 text-slate-400 lg:w-full sm:w-1/2">
               You can find your favorite work of art by title or author here:
             </p>
+            <Select
+              placeholder="Select artist..."
+              className="mt-1 lg:w-1/2 sm:w-full mr-5"
+              options={selectOptions}
+              onChange={(e) => selectHandler(e)}
+            />
             <input
-              className="border-gray-400 border-2 lg:w-1/2 w-full rounded-lg px-4 py-2 mr-5 placeholder:text-gray-400"
+              className="border-gray-400 border-2 lg:w-1/2 w-full rounded-lg px-4 py-2 placeholder:text-gray-400"
               name="search"
               type="text"
               placeholder="Search work..."
@@ -104,12 +110,6 @@ export default function Works() {
                 setQuery(e.target.value);
                 queryHandler(e.target.value);
               }}
-            />
-            <Select
-              placeholder="Select artist..."
-              className="mt-1 lg:w-1/2 sm:w-full"
-              options={selectOptions}
-              onChange={(e) => selectHandler(e)}
             />
           </div>
         </div>
