@@ -94,9 +94,7 @@ export default function Works({ data }) {
                     subtitle: principalOrFirstMaker,
                     website: links.web,
                   };
-                  if (webImage) {
-                    work.image = webImage.url;
-                  }
+                  if (webImage) (work.image = webImage.url);
                   return <Card work={work} mode="save" key={id} />;
                 })
               : ""}
