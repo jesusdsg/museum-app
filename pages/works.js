@@ -5,7 +5,7 @@ import Card from "../components/Card";
 import Select from "react-select";
 
 const API = `https://www.rijksmuseum.nl/api/nl/collection?key=`;
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const res = await axios.get(API + process.env.NEXT_PUBLIC_APIKEY + "&ps=10");
   const data = await res.data;
   return {
