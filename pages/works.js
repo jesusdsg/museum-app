@@ -5,21 +5,30 @@ import Card from "../components/Card";
 import Select from "react-select";
 
 const API = `https://www.rijksmuseum.nl/api/nl/collection?key=`;
-export async function getServerSideProps() {
-  const res = await axios.get(API + process.env.NEXT_PUBLIC_APIKEY + "&ps=10");
-  const data = await res.data;
-  return {
-    props: {
-      data,
-    },
-  };
-}
+let data;
 
-export default function Works({ data }) {
-  const [works, setWorks] = useState(data.artObjects);
-  /*
-    Load the artist object in async selector
-  */
+export default function Works() {
+  const [works, setWorks] = useState([]);
+  /*Loading the main array to handle data*/
+  const loadData = async () => {
+    if (!loaded) {
+      await axios
+        .get(API + process.env.NEXT_PUBLIC_APIKEY + "&ps=10")
+        .then(async (response) => {
+          data = await response.data;
+          setWorks(...[data.artObjects]);
+          setInitData(...[data.artObjects]);
+          if (data.facets) {
+            setArtists(data.facets[0].facets);
+          }
+        })
+        .catch((error) => {
+          console.log("Error", error);
+          return error.response.data.error;
+        });
+    }
+  };
+  /*Load the artist object in async selector*/
   const setArtists = async (facets) => {
     if (!loaded) {
       if (Array.isArray(facets)) {
@@ -30,10 +39,16 @@ export default function Works({ data }) {
     }
   };
 
+  /*Filtering data by Artist and keyword*/
   const getWorkByArtist = async (artist) => {
     await axios
       .get(
-        API + process.env.NEXT_PUBLIC_APIKEY + "&involvedMaker=" + artist.value + "&q=" + query
+        API +
+          process.env.NEXT_PUBLIC_APIKEY +
+          "&involvedMaker=" +
+          artist.value +
+          "&q=" +
+          query
       )
       .then((response) => {
         setWorks(response.data.artObjects);
@@ -44,30 +59,33 @@ export default function Works({ data }) {
       });
   };
 
+  /*Input handlers*/
   const queryHandler = () => {
-    if (query == '' && works.length == 0){
-      setWorks(data.artObjects)
+    if (query == "" && works.length == 0) {
+      setWorks(...[initData]);
+    } else if (query != "" && maker.value != "") {
+      getWorkByArtist(maker);
     }
-    else if (query != '' && maker.value != ''){
-      getWorkByArtist(maker)
-    }
-  }
+  };
 
   const selectHandler = (e) => {
-    if (query != '') {
+    if (query != "") {
       setMaker(e);
       getWorkByArtist(e);
     }
   };
 
   useEffect(() => {
-    setArtists(data.facets[0].facets);
+    loadData();
     setLoaded(true);
   }, [works]);
+
   const [maker, setMaker] = useState({});
   const [loaded, setLoaded] = useState(false);
   const [selectOptions] = useState([]);
   const [query, setQuery] = useState("");
+  const [initData, setInitData] = useState([]);
+
   return (
     <Layout>
       <div className="px-8">
@@ -82,7 +100,10 @@ export default function Works({ data }) {
               name="search"
               type="text"
               placeholder="Search work..."
-              onChange={(e) => {setQuery(e.target.value); queryHandler()}}
+              onChange={(e) => {
+                setQuery(e.target.value);
+                queryHandler();
+              }}
             />
             <Select
               placeholder="Select artist..."
@@ -94,20 +115,24 @@ export default function Works({ data }) {
         </div>
         <div className="py-10">
           <div className="grid lg:grid-cols-3 gap-10 md:grid-cols-2 sm:grid-cols-1">
-            {works.length > 0
-              ? works.map((work) => {
-                  const { id, links, title, webImage, principalOrFirstMaker } =
-                    work;
-                  work = {
-                    id: id,
-                    title: title,
-                    subtitle: principalOrFirstMaker,
-                    website: links.web,
-                  };
-                  if (webImage) (work.image = webImage.url);
-                  return <Card work={work} mode="save" key={id} />;
-                })
-              : ""}
+            {works.length > 0 ? (
+              works.map((work) => {
+                const { id, links, title, webImage, principalOrFirstMaker } =
+                  work;
+                work = {
+                  id: id,
+                  title: title,
+                  subtitle: principalOrFirstMaker,
+                };
+                if (links) work.website = links.web;
+                if (webImage) work.image = webImage.url;
+                return <Card work={work} mode="save" key={id} />;
+              })
+            ) : (
+              <div className="w-full py-10 px-2">
+                <h3 className="text-2xl text-red-700">Not results found</h3>
+              </div>
+            )}
           </div>
         </div>
       </div>
