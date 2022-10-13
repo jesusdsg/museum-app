@@ -17,7 +17,6 @@ export async function getStaticProps() {
 
 export default function Works({ data }) {
   const [works, setWorks] = useState(data.artObjects);
-
   /*
     Load the artist object in async selector
   */
