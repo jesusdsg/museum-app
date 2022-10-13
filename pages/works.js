@@ -3,11 +3,22 @@ import React, { useState, useEffect } from "react";
 import { Layout } from "../components/Layout";
 import Card from "../components/Card";
 import Select from "react-select";
+import { data } from "autoprefixer";
 
 const API = `https://www.rijksmuseum.nl/api/nl/collection?key=`;
 export async function getServerSideProps() {
-  const res = await axios.get(API + process.env.NEXT_PUBLIC_APIKEY + "&ps=10");
-  const data = await res.data;
+  let data = {};
+  await axios.get(API + process.env.NEXT_PUBLIC_APIKEY + "&ps=10")
+  .then(async (response) => {
+    if (response.data != 'Invalid Key'){
+       data = await response.data;
+    }
+   
+  })
+  .catch((error) => {
+    console.log("Error", error);
+    return error.response.data.error;
+  });
   return {
     props: {
       data,
@@ -61,7 +72,9 @@ export default function Works({ data }) {
   };
 
   useEffect(() => {
-    setArtists(data.facets[0].facets);
+    if (data.facets){
+      setArtists(data.facets[0].facets);
+    }
     setLoaded(true);
   }, [works]);
   const [maker, setMaker] = useState({});
@@ -94,7 +107,7 @@ export default function Works({ data }) {
         </div>
         <div className="py-10">
           <div className="grid lg:grid-cols-3 gap-10 md:grid-cols-2 sm:grid-cols-1">
-            {works.length > 0
+            {data.artObjects
               ? works.map((work) => {
                   const { id, links, title, webImage, principalOrFirstMaker } =
                     work;
@@ -107,7 +120,7 @@ export default function Works({ data }) {
                   if (webImage) (work.image = webImage.url);
                   return <Card work={work} mode="save" key={id} />;
                 })
-              : ""}
+              : <div className="w-full py-10 px-2"><h3 className="text-2xl text-red-700">Not results found</h3></div>}
           </div>
         </div>
       </div>
