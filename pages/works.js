@@ -60,18 +60,18 @@ export default function Works() {
   };
 
   /*Input handlers*/
-  const queryHandler = () => {
-    if (query == "" && works.length == 0) {
+  const queryHandler = (event) => {
+    if (event == '' && works.length == 0) {
       setWorks(...[initData]);
-    } else if (query != "" && maker.value != "") {
+    } else if (event != '' && maker.value != '') {
       getWorkByArtist(maker);
     }
   };
 
-  const selectHandler = (e) => {
-    if (query != "") {
-      setMaker(e);
-      getWorkByArtist(e);
+  const selectHandler = (event) => {
+    if (query != '') {
+      setMaker(event);
+      getWorkByArtist(event);
     }
   };
 
@@ -102,7 +102,7 @@ export default function Works() {
               placeholder="Search work..."
               onChange={(e) => {
                 setQuery(e.target.value);
-                queryHandler();
+                queryHandler(e.target.value);
               }}
             />
             <Select
