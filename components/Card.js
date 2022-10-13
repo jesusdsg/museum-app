@@ -38,13 +38,13 @@ function Card({ work, mode }) {
           <h3 className="text-md font-bold truncate">{work.title}</h3>
           <h3 className="text-sm text-gray-500 pb-2">{work.subtitle}</h3>
         </div>
-
-        <Image
-          width={350}
-          height={430}
+           <Image
+          width={0}
+          height={0}
           src={work.image}
           alt="poster"
-          className="rounded-lg"
+          sizes="100vw"
+          className="w-full h-auto rounded-lg"
         />
         <br />
         <div className="mt-4 flex gap-4 text-center">

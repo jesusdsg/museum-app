@@ -5,7 +5,7 @@ export function Layout({children}) {
   return (
     <div className="bg-gray-100">
         <Navbar />
-        <div className="container mx-auto">
+        <div className="container mx-auto main-container">
             {children}
         </div>
     </div>
