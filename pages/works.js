@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Layout } from "../components/Layout";
 import Card from "../components/Card";
-import Select from "react-select";
+import Filter from "../components/Filter";
 
 const API = `https://www.rijksmuseum.nl/api/nl/collection?key=`;
 let data;
@@ -39,97 +39,19 @@ export default function Works() {
     }
   };
 
-  /*Filtering data by Artist and keyword*/
-  const getWorkByArtist = async (artist) => {
-    if (query != ''){
-      await axios
-      .get(
-        API +
-          process.env.NEXT_PUBLIC_APIKEY +
-          "&involvedMaker=" +
-          artist.value +
-          "&q=" +
-          query
-      )
-      .then((response) => {
-        setWorks(response.data.artObjects);
-      })
-      .catch((error) => {
-        console.log("Error", error);
-        alert(error.response.data.error);
-      });
-    }
-    else {
-      await axios
-      .get(
-        API +
-          process.env.NEXT_PUBLIC_APIKEY +
-          "&involvedMaker=" +
-          artist.value
-      )
-      .then((response) => {
-        setWorks(response.data.artObjects);
-      })
-      .catch((error) => {
-        console.log("Error", error);
-        alert(error.response.data.error);
-      });
-    }
-    
-  };
-
-  /*Input handlers*/
-  const queryHandler = (event) => {
-    if (event == '' && works.length == 0) {
-      setWorks(...[initData]);
-    } else if (event != '' && maker.value != '') {
-      getWorkByArtist(maker);
-    }
-  };
-
-  const selectHandler = (event) => {
-      setMaker(event);
-      getWorkByArtist(event);
-  };
-
   useEffect(() => {
     loadData();
     setLoaded(true);
   }, [works]);
 
-  const [maker, setMaker] = useState({});
   const [loaded, setLoaded] = useState(false);
   const [selectOptions] = useState([]);
-  const [query, setQuery] = useState("");
   const [initData, setInitData] = useState([]);
 
   return (
     <Layout>
       <div className="px-8">
-        <div className="bg-white px-8 py-8 mt-8 rounded-lg shadow-lg">
-          <h1 className="text-3xl font-bold m-auto">Works of art</h1>
-          <div className="lg:flex grid gap-4">
-            <p className="text-xl mt-2 mr-5 text-slate-400 lg:w-full sm:w-1/2">
-              You can find your favorite work of art by title or author here:
-            </p>
-            <Select
-              placeholder="Select artist..."
-              className="mt-1 lg:w-1/2 sm:w-full mr-5"
-              options={selectOptions}
-              onChange={(e) => selectHandler(e)}
-            />
-            <input
-              className="border-gray-400 border-2 lg:w-1/2 w-full rounded-lg px-4 py-2 placeholder:text-gray-400"
-              name="search"
-              type="text"
-              placeholder="Search work..."
-              onChange={(e) => {
-                setQuery(e.target.value);
-                queryHandler(e.target.value);
-              }}
-            />
-          </div>
-        </div>
+        <Filter selectOptions={selectOptions} works={works} setWorks={setWorks} API={API} initData={initData} />
         <div className="py-10">
           <div className="grid lg:grid-cols-3 gap-10 md:grid-cols-2 sm:grid-cols-1">
             {works.length > 0 ? (
