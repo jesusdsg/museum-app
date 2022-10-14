@@ -77,7 +77,7 @@ export default function Works() {
           initData={initData}
         />
         <div className="py-10">
-          <div className="grid lg:grid-cols-3 gap-10 md:grid-cols-2 sm:grid-cols-1">
+          <div className="lg:grid lg:grid-cols-3 gap-10 md:grid-cols-2 sm:grid-cols-1">
             {works.length > 0 ? (
               works.map((work) => {
                 const { id, links, title, webImage, principalOrFirstMaker } =
