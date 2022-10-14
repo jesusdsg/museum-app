@@ -37,7 +37,7 @@ You can check out the [Live Demo](https://museum-app-gamma.vercel.app/) - your f
  password: root
 ```
 
-Please be patient the database host is free :smile:
+Please, be kind the database service is free :smile:
 
 ### Local recommendations
 
