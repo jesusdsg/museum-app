@@ -15,7 +15,7 @@ export default function Works() {
   const loadData = async () => {
     if (!loaded) {
       await axios
-        .get(API + process.env.NEXT_PUBLIC_APIKEY + "&ps=20")
+        .get(API + process.env.NEXT_PUBLIC_APIKEY + "&ps=10")
         .then(async (response) => {
           data = await response.data;
           setWorks(...[data.artObjects]);

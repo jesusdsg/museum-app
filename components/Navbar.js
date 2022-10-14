@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 
 export default function Navbar() {
   const router = useRouter();
-  let menu;
+  let menu; //helper to toggle responsive menu
   const toggle = () => {
     if (!!menu) {
       menu.classList.toggle("hidden");
