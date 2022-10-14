@@ -2,10 +2,12 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Layout } from "../components/Layout";
 import Card from "../components/Card";
-import Select from "react-select";
+import Filter from "../components/Filter";
 
 const API = `https://www.rijksmuseum.nl/api/nl/collection?key=`;
 let data;
+let notImage =
+  "https://storage.googleapis.com/featuredimagefromurl/image-not-found.jpg?id=CKjjYMsl-Iu";
 
 export default function Works() {
   const [works, setWorks] = useState([]);
@@ -13,7 +15,7 @@ export default function Works() {
   const loadData = async () => {
     if (!loaded) {
       await axios
-        .get(API + process.env.NEXT_PUBLIC_APIKEY + "&ps=10")
+        .get(API + process.env.NEXT_PUBLIC_APIKEY + "&ps=20")
         .then(async (response) => {
           data = await response.data;
           setWorks(...[data.artObjects]);
@@ -39,39 +41,19 @@ export default function Works() {
     }
   };
 
-  /*Filtering data by Artist and keyword*/
-  const getWorkByArtist = async (artist) => {
-    await axios
-      .get(
-        API +
-          process.env.NEXT_PUBLIC_APIKEY +
-          "&involvedMaker=" +
-          artist.value +
-          "&q=" +
-          query
-      )
-      .then((response) => {
-        setWorks(response.data.artObjects);
-      })
-      .catch((error) => {
-        console.log("Error", error);
-        alert(error.response.data.error);
-      });
-  };
-
-  /*Input handlers*/
-  const queryHandler = () => {
-    if (query == "" && works.length == 0) {
-      setWorks(...[initData]);
-    } else if (query != "" && maker.value != "") {
-      getWorkByArtist(maker);
+  const checkImage = (webImage) => {
+    if (webImage) {
+      return webImage.url;
+    } else {
+      return notImage;
     }
   };
 
-  const selectHandler = (e) => {
-    if (query != "") {
-      setMaker(e);
-      getWorkByArtist(e);
+  const checkLink = (links) => {
+    if (links) {
+      return links.web;
+    } else {
+      return "";
     }
   };
 
@@ -80,39 +62,20 @@ export default function Works() {
     setLoaded(true);
   }, [works]);
 
-  const [maker, setMaker] = useState({});
   const [loaded, setLoaded] = useState(false);
   const [selectOptions] = useState([]);
-  const [query, setQuery] = useState("");
   const [initData, setInitData] = useState([]);
 
   return (
     <Layout>
       <div className="px-8">
-        <div className="bg-white px-8 py-8 mt-8 rounded-lg shadow-lg">
-          <h1 className="text-3xl font-bold m-auto">Works of art</h1>
-          <div className="lg:flex sm:inline-block">
-            <p className="text-xl mt-2 mr-5 text-slate-400 lg:w-full sm:w-1/2">
-              You can find your favorite work of art by title or author here:
-            </p>
-            <input
-              className="border-gray-400 border-2 lg:w-1/2 w-full rounded-lg px-4 py-2 mr-5 placeholder:text-gray-400"
-              name="search"
-              type="text"
-              placeholder="Search work..."
-              onChange={(e) => {
-                setQuery(e.target.value);
-                queryHandler();
-              }}
-            />
-            <Select
-              placeholder="Select artist..."
-              className="mt-1 lg:w-1/2 sm:w-full"
-              options={selectOptions}
-              onChange={(e) => selectHandler(e)}
-            />
-          </div>
-        </div>
+        <Filter
+          selectOptions={selectOptions}
+          works={works}
+          setWorks={setWorks}
+          API={API}
+          initData={initData}
+        />
         <div className="py-10">
           <div className="grid lg:grid-cols-3 gap-10 md:grid-cols-2 sm:grid-cols-1">
             {works.length > 0 ? (
@@ -123,9 +86,9 @@ export default function Works() {
                   id: id,
                   title: title,
                   subtitle: principalOrFirstMaker,
+                  image: checkImage(webImage),
+                  website: checkLink(links),
                 };
-                if (links) work.website = links.web;
-                if (webImage) work.image = webImage.url;
                 return <Card work={work} mode="save" key={id} />;
               })
             ) : (
