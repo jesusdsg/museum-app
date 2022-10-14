@@ -39,7 +39,7 @@ You can check out the [Live Demo](https://museum-app-gamma.vercel.app/) - your f
 
 Please, be kind the database service is free :smile:
 
-### Local recommendations
+### Local deploy recommendations
 
 Make sure you have a database manager like mysql installed.
 In the directory ``` ./config/db.js ``` you will find the next structure:
