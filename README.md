@@ -27,6 +27,7 @@ The tools used in the project will be listed below:
 - TailwindCSS for styles.
 - Custom Scrolltop component.
 - Mysql Database for storage data.
+- Toastify for notifications.
 - Vercel for deployment.
 
 You can check out the [Live Demo](https://museum-app-gamma.vercel.app/) - your feedback and contributions are welcome!
@@ -35,6 +36,8 @@ You can check out the [Live Demo](https://museum-app-gamma.vercel.app/) - your f
  username or email: admin
  password: root
 ```
+
+Please be patient the database host is free :smile:
 
 ### Local recommendations
 
