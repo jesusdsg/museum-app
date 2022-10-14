@@ -8,3 +8,7 @@
         width: 100vh !important;
     }
 }
+
+.fix-margin-t {
+    margin-top: 0.2rem;
+}
