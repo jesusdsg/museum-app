@@ -10,12 +10,22 @@ function Card({ work, mode }) {
       .post("/api/profile", work)
       .then((response) => {
         if (response.status == 200) {
-          toast(response.data.message, { hideProgressBar: true, autoClose: 2000, type: 'success', position: 'bottom-right'})
+          toast(response.data.message, {
+            hideProgressBar: true,
+            autoClose: 2000,
+            type: "success",
+            position: "bottom-right",
+          });
         }
       })
       .catch((error) => {
         console.log("Error", error);
-        toast(error.response.data.error, { hideProgressBar: true, autoClose: 2000, type: 'error', position: 'bottom-right'})
+        toast(error.response.data.error, {
+          hideProgressBar: true,
+          autoClose: 2000,
+          type: "error",
+          position: "bottom-right",
+        });
       });
   };
   const removeFavorite = async (id) => {
@@ -23,13 +33,22 @@ function Card({ work, mode }) {
       .delete("/api/" + id)
       .then((response) => {
         if (response.status == 200) {
-          toast(response.data.message, { hideProgressBar: true, autoClose: 2000, type: 'success', position: 'bottom-right'})
+          toast(response.data.message, {
+            hideProgressBar: true,
+            autoClose: 2000,
+            type: "success",
+            position: "bottom-right",
+          });
         }
       })
       .catch((error) => {
         console.log("Error", error);
-        toast(error.response.data.error, { hideProgressBar: true, autoClose: 2000, type: 'error', position: 'bottom-right'})
-        
+        toast(error.response.data.error, {
+          hideProgressBar: true,
+          autoClose: 2000,
+          type: "error",
+          position: "bottom-right",
+        });
       });
   };
   return (
@@ -39,7 +58,7 @@ function Card({ work, mode }) {
           <h3 className="text-md font-bold truncate">{work.title}</h3>
           <h3 className="text-sm text-gray-500 pb-2">{work.subtitle}</h3>
         </div>
-           <Image
+        <Image
           width={0}
           height={0}
           src={work.image}
