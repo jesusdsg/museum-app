@@ -1,11 +1,17 @@
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { toast } from "react-toastify";
 
 export default function Navbar() {
   const router = useRouter();
+  let menu; //helper to toggle responsive menu
+  const toggle = () => {
+    if (!!menu) {
+      menu.classList.toggle("hidden");
+    }
+  };
   const logout = async () => {
     await axios
       .get("./api/auth/logout")
@@ -16,9 +22,19 @@ export default function Navbar() {
       })
       .catch((error) => {
         console.log("Error", error);
-        toast(error.response.data.error, { hideProgressBar: true, autoClose: 2000, type: 'error', position: 'bottom-right'})        
+        toast(error.response.data.error, {
+          hideProgressBar: true,
+          autoClose: 2000,
+          type: "error",
+          position: "bottom-right",
+        });
       });
   };
+
+  useEffect(() => {
+    menu = document.getElementById("navbar-default");
+  });
+
   return (
     <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5">
       <div className="container flex flex-wrap justify-between items-center mx-auto">
@@ -45,6 +61,7 @@ export default function Navbar() {
         </Link>
         <button
           data-collapse-toggle="navbar-default"
+          onClick={() => toggle()}
           type="button"
           className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
           aria-controls="navbar-default"
@@ -69,7 +86,7 @@ export default function Navbar() {
           <ul className="flex flex-col p-4 mt-4 bg-gray-50 rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white">
             <li>
               <Link href="/works">
-              <a className="text-base block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-red-700 md:p-0 ease-in duration-300">
+                <a className="text-base block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-red-700 md:p-0 ease-in duration-300">
                   Works
                 </a>
               </Link>
