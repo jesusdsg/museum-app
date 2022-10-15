@@ -46,7 +46,7 @@ function Profile() {
           </p>
         </div>
 
-        <div className="lg:grid lg:grid-cols-3 gap-10 md:grid-cols-2 sm:grid-cols-1">
+        <div className="lg:grid lg:grid-cols-3 gap-10 md:grid-cols-2 sm:grid-cols-1 mb-8">
           {user.bookmarks.map((bookmark) => {
             const { id, title, image, createAt, website } = bookmark;
             let work = {
